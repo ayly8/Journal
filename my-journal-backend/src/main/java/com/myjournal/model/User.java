@@ -6,10 +6,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Document(collection = "Users") // maps this class to the "Users" collection in MongoDB
-public class JournalEntry {
+public class User {
 
    @Id
-   private String id; // MongoDB unique ObjectId (String)
+   private String id;
 
    private String username;
    private String email;

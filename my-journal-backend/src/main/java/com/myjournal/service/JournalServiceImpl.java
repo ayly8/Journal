@@ -5,13 +5,9 @@ import com.myjournal.repository.JournalRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
-/*
- * This file implements the JournalService interface
- */
-
-@Service // connects controllers to repositories
+@Service
 public class JournalServiceImpl implements JournalService {
 
    private final JournalRepo journalRepo;
@@ -23,16 +19,10 @@ public class JournalServiceImpl implements JournalService {
       this.journalRepo = journalRepo;
    }
 
-   // calls the repository method to fetch user from MongoDB by username
+   // retrieve journal entries by userId
    @Override
-   public Optional<JournalEntry> findByUsername(String username) {
-      return journalRepo.findByUsername(username);
-   }
-
-   // calls the repository method to fetch user from MongoDB by email
-   @Override
-   public Optional<JournalEntry> findByEmail(String email) {
-      return journalRepo.findByEmail(email);
+   public List<JournalEntry> findByUserId(String userId) {
+      return journalRepo.findByUserId(userId);
    }
 
    // saves the journal entry using the repository
