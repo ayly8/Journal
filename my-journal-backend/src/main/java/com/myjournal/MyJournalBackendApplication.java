@@ -11,11 +11,4 @@ public class MyJournalBackendApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MyJournalBackendApplication.class, args);
 	}
-
-	// add BCryptPasswordEncoder bean
-	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
 }

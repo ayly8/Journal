@@ -3,6 +3,9 @@ import "../css/form.css";
 
 function Form() {
    const [isActive, setIsActive] = useState(false);
+   const [name, setName] = useState("");
+   const [email, setEmail] = useState("");
+   const [password, setPassword] = useState("");
 
    const handleSignUpClick = () => {
       setIsActive(true);
@@ -14,23 +17,60 @@ function Form() {
       console.log("Sign In Clicked! isActive:", false);
    };
 
+   const handleSubmit = async (endpoint) => {
+      try {
+         const response = await fetch(`http://localhost:8080/api/auth/${endpoint}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password })
+         });
+
+         if (response.ok) {
+            const data = await response.text();
+            localStorage.setItem("token", data);  // Store token if using JWT
+         } 
+      } catch (error) {
+         console.log("Error occurred!");
+      }
+   };
+
    return (
       <div className={`container ${isActive ? "right-panel-active" : ""}`}>
          <div className="form-container signUp-container">
             <div className="form">
                <h1>Sign Up</h1>
-               <input type="text" placeholder="Name" />
-               <input type="email" placeholder="Email" />
-               <input type="password" placeholder="Password" />
-               <button>Sign Up</button>
+               <input
+                  type="text"
+                  placeholder="Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}/>
+               <input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}/>
+               <input
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}/>
+               <button onClick={() => handleSubmit("register")}>Sign Up</button>
             </div>  
          </div>
          <div className="form-container signIn-container">
             <div className="form">
                <h1>Sign In</h1>
-               <input type="email" placeholder="Email" />
-               <input type="password" placeholder="Password" />
-               <button>Sign In</button>
+               <input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}/>
+               <input
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}/>
+               <button onClick={() => handleSubmit("login")}>Sign In</button>
             </div>
          </div>
          <div className="overlay-container">
