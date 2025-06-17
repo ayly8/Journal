@@ -3,6 +3,8 @@ package com.myjournal.backend.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Document(collection = "Users")
 public class User {
 
@@ -12,6 +14,7 @@ public class User {
    private String username;
    private String email;
    private String password;
+   private List<String> roles;
 
    // Constructors
    public User() {
@@ -54,5 +57,13 @@ public class User {
 
    public void setPassword(String password) {
       this.password = password;
+   }
+
+   public List<String> getRoles() {
+      return roles;
+   }
+
+   public void setRoles(List<String> roles) {
+      this.roles = roles;
    }
 }

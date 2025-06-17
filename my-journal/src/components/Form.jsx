@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../css/form.css";
 
 function Form() {
@@ -6,6 +7,8 @@ function Form() {
    const [name, setName] = useState("");
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
+
+   const navigate = useNavigate();
 
    const handleSignUpClick = () => {
       setIsActive(true);
@@ -18,21 +21,49 @@ function Form() {
    };
 
    const handleSubmit = async (endpoint) => {
-      try {
-         const response = await fetch(`http://localhost:8080/api/auth/${endpoint}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password })
-         });
+   try {
+      let response;
 
-         if (response.ok) {
-            const data = await response.text();
-            localStorage.setItem("token", data);  // Store token if using JWT
-         } 
-      } catch (error) {
-         console.log("Error occurred!");
+      if (endpoint === "register") {
+         response = await fetch("http://localhost:8080/api/auth/register", {
+            method: "POST",
+            headers: {
+               "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+               username: name, // assuming `name` is your username
+               email,
+               password,
+            }),
+            credentials: "include", // just in case cookies are sent
+         });
+      } else if (endpoint === "login") {
+         response = await fetch("http://localhost:8080/api/auth/login", {
+            method: "POST",
+            headers: {
+               "Content-Type": "application/json",
+            },
+               body: JSON.stringify({
+               username: name,   // use `name` to match register form
+               password,
+            }),
+            credentials: "include",
+         });
       }
-   };
+
+      if (response.ok) {
+         const data = await response.text();
+         console.log("Success:", data);
+         navigate("/dashboard"); // Redirect after success
+      } else {
+         const errorText = await response.text();
+         console.error("Failed:", errorText);
+         alert("Login/Register failed: " + errorText);
+      }
+   } catch (error) {
+      console.log("Error occurred!", error);
+   }
+};
 
    return (
       <div className={`container ${isActive ? "right-panel-active" : ""}`}>
@@ -61,10 +92,10 @@ function Form() {
             <div className="form">
                <h1>Sign In</h1>
                <input
-                  type="email"
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}/>
+                  type="text"
+                  placeholder="Username"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}/>
                <input
                   type="password"
                   placeholder="Password"

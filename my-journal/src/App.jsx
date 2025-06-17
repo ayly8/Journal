@@ -1,10 +1,17 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Form from './components/Form.jsx'
+import Dashboard from './components/Dashboard.jsx'
 
 function App() {
 
   return (
     <>
-      <Form />
+      <Router>
+      <Routes>
+        <Route path="/" element={<Form />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </Router>
     </>
   )
 }
