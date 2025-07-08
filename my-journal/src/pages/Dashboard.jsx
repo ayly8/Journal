@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import EntryModal from '../components/EntryModal'
 
 function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [authorized, setAuthorized] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,6 +48,11 @@ function Dashboard() {
       <h1>Dashboard</h1>
       <p>You are logged in!</p>
       <button onClick={handleLogout}>Logout</button>
+      <button onClick={() => setShowModal(true)}>Create Entry</button>
+
+      {showModal && (
+        <EntryModal onClose={() => setShowModal(false)} />
+      )}
     </div>
   );
 }
