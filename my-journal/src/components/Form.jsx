@@ -85,7 +85,7 @@ function Form() {
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}/>
-               <button onClick={() => handleSubmit("register")}>Sign Up</button>
+               <button className="register-btn" onClick={() => handleSubmit("register")}>Sign Up</button>
             </div>  
          </div>
          <div className="form-container signIn-container">
@@ -101,7 +101,7 @@ function Form() {
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}/>
-               <button onClick={() => handleSubmit("login")}>Sign In</button>
+               <button className="signin-btn" onClick={() => handleSubmit("login")}>Sign In</button>
             </div>
          </div>
          <div className="overlay-container">

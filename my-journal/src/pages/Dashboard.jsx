@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import EntryModal from '../components/EntryModal'
+import '../css/dashboard.css'
 
 function Dashboard() {
   const [loading, setLoading] = useState(true);
@@ -47,8 +48,8 @@ function Dashboard() {
     <div>
       <h1>Dashboard</h1>
       <p>You are logged in!</p>
-      <button onClick={handleLogout}>Logout</button>
-      <button onClick={() => setShowModal(true)}>Create Entry</button>
+      <button className="logout-btn" onClick={handleLogout}>Logout</button>
+      <button className="createentry-btn" onClick={() => setShowModal(true)}>Create Entry</button>
 
       {showModal && (
         <EntryModal onClose={() => setShowModal(false)} />
