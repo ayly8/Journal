@@ -5,18 +5,21 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
+// connects to MongoDB collection called "Users"
 @Document(collection = "Users")
 public class User {
 
+   // primary key (_id field in MongoDB)
    @Id
    private String id;
 
+   // user fields stored in each document of the collection
    private String username;
    private String email;
    private String password;
    private List<String> roles;
 
-   // Constructors
+   // constructors
    public User() {
    }
 
@@ -26,7 +29,7 @@ public class User {
       this.password = password;
    }
 
-   // Getters and setters
+   // getters and setters for MongoDB document ID
    public String getId() {
       return id;
    }

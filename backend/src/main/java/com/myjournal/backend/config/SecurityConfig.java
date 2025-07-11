@@ -22,37 +22,39 @@ public class SecurityConfig {
    @Bean
    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
       http
-            .cors(withDefaults())
-            .csrf(csrf -> csrf.disable()) // disable for API simplicity, you can enable it later with token
+            .cors(withDefaults()) // enable CORS - cross origin resource sharing
+            .csrf(csrf -> csrf.disable()) // disable CSRF - cross site request forgery (ok for APIs using sessions)
             .authorizeHttpRequests(auth -> auth
-                  .requestMatchers("/api/auth/**").permitAll() // Allow register/login endpoints
-                  .anyRequest().authenticated())
-            .formLogin(form -> form.disable())
+                  .requestMatchers("/api/auth/**").permitAll() // allow anyone to access register/login endpoints
+                  .anyRequest().authenticated()) // but everything else needs authentication
+            .formLogin(form -> form.disable()) // disable default Spring Boot login form
             .sessionManagement(session -> session
-                  .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)); // Session-based
+                  .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)); // create sessions only if needed
       return http.build();
    }
 
    @Bean
    public CorsConfigurationSource corsConfigurationSource() {
       CorsConfiguration config = new CorsConfiguration();
-      config.setAllowCredentials(true);
-      config.addAllowedOrigin("http://localhost:5173"); // React frontend origin
-      config.addAllowedHeader("*");
-      config.addAllowedMethod("*");
+      config.setAllowCredentials(true); // allow cookies/sessions
+      config.addAllowedOrigin("http://localhost:5173"); // allow frontend to access backend
+      config.addAllowedHeader("*"); // allow all headers (Authorization, etc.)
+      config.addAllowedMethod("*"); // allow all methods (GET, POST, etc.)
 
       UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-      source.registerCorsConfiguration("/**", config);
+      source.registerCorsConfiguration("/**", config); // apply CORS config to all routes
       return source;
    }
 
    @Bean
    public PasswordEncoder passwordEncoder() {
+      // hashes passwords before storing them
       return new BCryptPasswordEncoder();
    }
 
    @Bean
    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+      // provides authentication logic
       return config.getAuthenticationManager();
    }
 }

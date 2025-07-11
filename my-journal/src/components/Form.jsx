@@ -7,6 +7,8 @@ function Form() {
    const [name, setName] = useState("");
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
+   const [userName, setUserName] = useState("");
+   const [userPass, setUserPass] = useState("");
 
    const navigate = useNavigate();
 
@@ -44,8 +46,8 @@ function Form() {
                "Content-Type": "application/json",
             },
                body: JSON.stringify({
-               username: name,   // use `name` to match register form
-               password,
+               username: userName,   // use `name` to match register form
+               password: userPass,
             }),
             credentials: "include",
          });
@@ -94,13 +96,13 @@ function Form() {
                <input
                   type="text"
                   placeholder="Username"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}/>
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}/>
                <input
                   type="password"
                   placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}/>
+                  value={userPass}
+                  onChange={(e) => setUserPass(e.target.value)}/>
                <button className="signin-btn" onClick={() => handleSubmit("login")}>Sign In</button>
             </div>
          </div>

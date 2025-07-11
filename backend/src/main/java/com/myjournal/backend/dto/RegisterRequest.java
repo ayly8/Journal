@@ -1,11 +1,14 @@
+// dto - data transfer object - carries data between layers of the application
 package com.myjournal.backend.dto;
 
+// dto that handles login requests
 public class RegisterRequest {
+   // register form fields
    private String username;
    private String email;
    private String password;
 
-   // Constructors
+   // constructors
    public RegisterRequest() {
    }
 
@@ -15,7 +18,7 @@ public class RegisterRequest {
       this.password = password;
    }
 
-   // Getters and setters
+   // getters and setters that are used by authcontroller/userservice files
    public String getUsername() {
       return username;
    }
