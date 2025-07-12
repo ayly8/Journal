@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import PropTypes from 'prop-types';
 import "../css/form.css";
 
-function Form() {
+function Form({ setIsLoggedIn }) {
    const [isActive, setIsActive] = useState(false);
    const [name, setName] = useState("");
    const [email, setEmail] = useState("");
@@ -33,11 +34,11 @@ function Form() {
                "Content-Type": "application/json",
             },
             body: JSON.stringify({
-               username: name, // assuming `name` is your username
+               username: name, 
                email,
                password,
             }),
-            credentials: "include", // just in case cookies are sent
+            credentials: "include",
          });
       } else if (endpoint === "login") {
          response = await fetch("http://localhost:8080/api/auth/login", {
@@ -46,7 +47,7 @@ function Form() {
                "Content-Type": "application/json",
             },
                body: JSON.stringify({
-               username: userName,   // use `name` to match register form
+               username: userName,
                password: userPass,
             }),
             credentials: "include",
@@ -56,7 +57,8 @@ function Form() {
       if (response.ok) {
          const data = await response.text();
          console.log("Success:", data);
-         navigate("/dashboard"); // Redirect after success
+         setIsLoggedIn(true);
+         navigate("/dashboard"); 
       } else {
          const errorText = await response.text();
          console.error("Failed:", errorText);
@@ -68,60 +70,66 @@ function Form() {
 };
 
    return (
-      <div className={`container ${isActive ? "right-panel-active" : ""}`}>
-         <div className="form-container signUp-container">
-            <div className="form">
-               <h1>Sign Up</h1>
-               <input
-                  type="text"
-                  placeholder="Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}/>
-               <input
-                  type="email"
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}/>
-               <input
-                  type="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}/>
-               <button className="register-btn" onClick={() => handleSubmit("register")}>Sign Up</button>
-            </div>  
-         </div>
-         <div className="form-container signIn-container">
-            <div className="form">
-               <h1>Sign In</h1>
-               <input
-                  type="text"
-                  placeholder="Username"
-                  value={userName}
-                  onChange={(e) => setUserName(e.target.value)}/>
-               <input
-                  type="password"
-                  placeholder="Password"
-                  value={userPass}
-                  onChange={(e) => setUserPass(e.target.value)}/>
-               <button className="signin-btn" onClick={() => handleSubmit("login")}>Sign In</button>
+      <div className="form-wrapper">
+         <div className={`container ${isActive ? "right-panel-active" : ""}`}>
+            <div className="form-container signUp-container">
+               <div className="form">
+                  <h1>Sign Up</h1>
+                  <input
+                     type="text"
+                     placeholder="Name"
+                     value={name}
+                     onChange={(e) => setName(e.target.value)}/>
+                  <input
+                     type="email"
+                     placeholder="Email"
+                     value={email}
+                     onChange={(e) => setEmail(e.target.value)}/>
+                  <input
+                     type="password"
+                     placeholder="Password"
+                     value={password}
+                     onChange={(e) => setPassword(e.target.value)}/>
+                  <button className="register-btn" onClick={() => handleSubmit("register")}>Sign Up</button>
+               </div>  
             </div>
-         </div>
-         <div className="overlay-container">
-            <div className="overlay">
-               <div className="overlay-panel overlay-left">
-                  <h1>Welcome back!</h1>
-                  <p>Already have an account? Please sign in with your personal information.</p>
-                  <button className="ghost" id="signIn" onClick={handleSignInClick}>Sign In</button>  
+            <div className="form-container signIn-container">
+               <div className="form">
+                  <h1>Sign In</h1>
+                  <input
+                     type="text"
+                     placeholder="Username"
+                     value={userName}
+                     onChange={(e) => setUserName(e.target.value)}/>
+                  <input
+                     type="password"
+                     placeholder="Password"
+                     value={userPass}
+                     onChange={(e) => setUserPass(e.target.value)}/>
+                  <button className="signin-btn" onClick={() => handleSubmit("login")}>Sign In</button>
                </div>
-               <div className="overlay-panel overlay-right">
-                  <h1>Hello friend!</h1>
-                  <p>Want to keep track of your memories? Sign up to get started today.</p>
-                  <button className="ghost" id="signUp" onClick={handleSignUpClick}>Sign Up</button>
+            </div>
+            <div className="overlay-container">
+               <div className="overlay">
+                  <div className="overlay-panel overlay-left">
+                     <h1>Welcome back!</h1>
+                     <p>Already have an account? Please sign in with your personal information.</p>
+                     <button className="ghost" id="signIn" onClick={handleSignInClick}>Sign In</button>  
+                  </div>
+                  <div className="overlay-panel overlay-right">
+                     <h1>Hello friend!</h1>
+                     <p>Want to keep track of your memories? Sign up to get started today.</p>
+                     <button className="ghost" id="signUp" onClick={handleSignUpClick}>Sign Up</button>
+                  </div>
                </div>
             </div>
          </div>
       </div>
    );
 }
+
+Form.propTypes = {
+   setIsLoggedIn: PropTypes.func.isRequired,
+};
 
 export default Form;
