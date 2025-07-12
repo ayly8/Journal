@@ -2,6 +2,7 @@
   font-size: 32px;
   color: white;
   text-decoration: none;
+  font-weight: normal;
 }
 
 #nav {
@@ -21,10 +22,10 @@
   display: flex;
   gap: 16px;
 }
-/* 
-#nav li a {
+
+#nav li a, #nav li button {
   display: block;
-  color: black;
+  color: white;
   font-size: 24px;
   text-align: center;
   padding: 14px 16px;
@@ -33,7 +34,7 @@
   cursor: pointer;
 }
 
-#nav li a::after {
+#nav li a::after, #nav li button::after {
   content: '';
   position: absolute;
   width: 0;
@@ -41,11 +42,18 @@
   display: block;
   margin-top: 5px;
   right: 0;
-  background: black;
+  background: white;
   transition: width 0.3s ease, background-color 0.3s ease;
 }
 
-#nav li a:hover::after {
+#nav li a:hover::after, #nav li button:hover::after {
   width: 100%;
   left: 0;
-} */
+}
+
+#nav li button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 32px;
+}

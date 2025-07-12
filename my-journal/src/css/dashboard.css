@@ -1,4 +1,4 @@
-.logout-btn, .createentry-btn {
+.createentry-btn {
    background-color: #D9A0CE;
    color: black;
    border: none;
@@ -9,7 +9,7 @@
    transition: transform 80ms ease-in;
 }
 
-.logout-btn:hover, .createentry-btn:hover {
+.createentry-btn:hover {
    background-color: black;
    color: white;
    cursor: pointer;

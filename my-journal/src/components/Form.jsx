@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import "../css/form.css";
 
-function Form({ setIsLoggedIn }) {
+function Form({ setIsLoggedIn, setCurrentUser }) {
    const [isActive, setIsActive] = useState(false);
    const [name, setName] = useState("");
    const [email, setEmail] = useState("");
@@ -24,50 +24,38 @@ function Form({ setIsLoggedIn }) {
    };
 
    const handleSubmit = async (endpoint) => {
-   try {
-      let response;
+      try {
+         const body =
+            endpoint === "register"
+               ? { username: name, email, password }
+               : { username: userName, password: userPass };
 
-      if (endpoint === "register") {
-         response = await fetch("http://localhost:8080/api/auth/register", {
+         const response = await fetch(`http://localhost:8080/api/auth/${endpoint}`, {
             method: "POST",
-            headers: {
-               "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-               username: name, 
-               email,
-               password,
-            }),
+            headers: { "Content-Type": "application/json" },
             credentials: "include",
+            body: JSON.stringify(body),
          });
-      } else if (endpoint === "login") {
-         response = await fetch("http://localhost:8080/api/auth/login", {
-            method: "POST",
-            headers: {
-               "Content-Type": "application/json",
-            },
-               body: JSON.stringify({
-               username: userName,
-               password: userPass,
-            }),
-            credentials: "include",
-         });
-      }
 
-      if (response.ok) {
-         const data = await response.text();
-         console.log("Success:", data);
-         setIsLoggedIn(true);
-         navigate("/dashboard"); 
-      } else {
-         const errorText = await response.text();
-         console.error("Failed:", errorText);
-         alert("Login/Register failed: " + errorText);
+         if (response.ok) {
+            const userRes = await fetch("http://localhost:8080/api/auth/me", {
+               credentials: "include",
+            });
+
+            if (userRes.ok) {
+               const user = await userRes.text();
+               setIsLoggedIn(true);
+               setCurrentUser(user);
+               navigate("/dashboard");
+            }
+         } else {
+            const errorText = await response.text();
+            alert("Login/Register failed: " + errorText);
+         }
+      } catch (err) {
+            console.error("Error occurred!", err);
       }
-   } catch (error) {
-      console.log("Error occurred!", error);
-   }
-};
+   };
 
    return (
       <div className="form-wrapper">
@@ -129,7 +117,8 @@ function Form({ setIsLoggedIn }) {
 }
 
 Form.propTypes = {
-   setIsLoggedIn: PropTypes.func.isRequired,
+  setIsLoggedIn: PropTypes.func.isRequired,
+  setCurrentUser: PropTypes.func.isRequired,
 };
 
 export default Form;
