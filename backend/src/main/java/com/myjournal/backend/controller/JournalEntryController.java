@@ -2,9 +2,14 @@ package com.myjournal.backend.controller;
 
 import com.myjournal.backend.model.JournalEntry;
 import com.myjournal.backend.repository.JournalEntryRepository;
+
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.myjournal.backend.dto.JournalEntryRequest;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,15 +24,30 @@ public class JournalEntryController {
 
    // Get all entries
    @GetMapping
-   public List<JournalEntry> getAllEntries() {
-      return journalEntryRepository.findAll();
+   public List<JournalEntry> getEntriesForCurrentUser(@RequestParam String userId) {
+      return journalEntryRepository.findByUserId(userId);
    }
 
    // Create new entry
    @PostMapping
-   public JournalEntry createEntry(@RequestBody JournalEntry entry) {
+   public ResponseEntity<?> createEntry(@RequestBody JournalEntryRequest request, HttpSession session) {
+      System.out.println("Session ID: " + session.getId());
+      System.out.println("User attribute: " + session.getAttribute("user"));
+
+      String username = (String) session.getAttribute("user");
+      if (username == null) {
+         return ResponseEntity.status(403).body("Not authenticated");
+      }
+
+      JournalEntry entry = new JournalEntry();
+      entry.setTitle(request.getTitle());
+      entry.setEntry(request.getEntry());
+      entry.setUserId(username); // use authenticated username, not what's in request
+      entry.setDateSelected(request.getDateSelected());
       entry.setDateCreated(LocalDateTime.now());
-      return journalEntryRepository.save(entry);
+
+      JournalEntry savedEntry = journalEntryRepository.save(entry);
+      return ResponseEntity.ok(savedEntry);
    }
 
    // Get a single entry by ID
@@ -40,10 +60,12 @@ public class JournalEntryController {
 
    // Update an entry
    @PutMapping("/{id}")
-   public ResponseEntity<JournalEntry> updateEntry(@PathVariable String id, @RequestBody JournalEntry updatedEntry) {
+   public ResponseEntity<JournalEntry> updateEntry(@PathVariable String id,
+         @RequestBody JournalEntryRequest updatedEntryRequest) {
       return journalEntryRepository.findById(id).map(entry -> {
-         entry.setTitle(updatedEntry.getTitle());
-         entry.setEntry(updatedEntry.getEntry());
+         entry.setTitle(updatedEntryRequest.getTitle());
+         entry.setEntry(updatedEntryRequest.getEntry());
+         entry.setDateSelected(updatedEntryRequest.getDateSelected());
          return ResponseEntity.ok(journalEntryRepository.save(entry));
       }).orElse(ResponseEntity.notFound().build());
    }
@@ -53,11 +75,5 @@ public class JournalEntryController {
    public ResponseEntity<Void> deleteEntry(@PathVariable String id) {
       journalEntryRepository.deleteById(id);
       return ResponseEntity.noContent().build();
-   }
-
-   // Get all entries by userId
-   @GetMapping("/user/{userId}")
-   public List<JournalEntry> getEntriesByUserId(@PathVariable String userId) {
-      return journalEntryRepository.findByUserId(userId);
    }
 }

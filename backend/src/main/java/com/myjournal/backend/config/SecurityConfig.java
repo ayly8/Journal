@@ -2,8 +2,6 @@ package com.myjournal.backend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -13,11 +11,19 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import com.myjournal.backend.service.CustomUserDetailsService;
+
 import static org.springframework.security.config.Customizer.withDefaults;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+   @Autowired
+   private CustomUserDetailsService customUserDetailsService;
 
    @Bean
    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -26,8 +32,10 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) // disable CSRF - cross site request forgery (ok for APIs using sessions)
             .authorizeHttpRequests(auth -> auth
                   .requestMatchers("/api/auth/**").permitAll() // allow anyone to access register/login endpoints
+                  .requestMatchers("/api/entries/**").permitAll()
                   .anyRequest().authenticated()) // but everything else needs authentication
             .formLogin(form -> form.disable()) // disable default Spring Boot login form
+            .userDetailsService(customUserDetailsService)
             .sessionManagement(session -> session
                   .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)); // create sessions only if needed
       return http.build();
@@ -50,11 +58,5 @@ public class SecurityConfig {
    public PasswordEncoder passwordEncoder() {
       // hashes passwords before storing them
       return new BCryptPasswordEncoder();
-   }
-
-   @Bean
-   public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-      // provides authentication logic
-      return config.getAuthenticationManager();
    }
 }

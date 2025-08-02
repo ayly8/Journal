@@ -14,16 +14,18 @@ public class JournalEntry {
    private String userId;
    private String title;
    private String entry;
+   private String dateSelected;
    private LocalDateTime dateCreated;
 
    // Constructors
    public JournalEntry() {
    }
 
-   public JournalEntry(String userId, String title, String entry, LocalDateTime dateCreated) {
+   public JournalEntry(String userId, String title, String entry, String dateSelected, LocalDateTime dateCreated) {
       this.userId = userId;
       this.title = title;
       this.entry = entry;
+      this.dateSelected = dateSelected;
       this.dateCreated = dateCreated;
    }
 
@@ -58,6 +60,14 @@ public class JournalEntry {
 
    public void setEntry(String entry) {
       this.entry = entry;
+   }
+
+   public String getDateSelected() {
+      return dateSelected;
+   }
+
+   public void setDateSelected(String dateSelected) {
+      this.dateSelected = dateSelected;
    }
 
    public LocalDateTime getDateCreated() {

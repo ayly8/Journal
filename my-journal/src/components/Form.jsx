@@ -30,7 +30,7 @@ function Form({ setIsLoggedIn, setCurrentUser }) {
                ? { username: name, email, password }
                : { username: userName, password: userPass };
 
-         const response = await fetch(`http://localhost:8080/api/auth/${endpoint}`, {
+         const response = await fetch(`/api/auth/${endpoint}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
@@ -38,7 +38,7 @@ function Form({ setIsLoggedIn, setCurrentUser }) {
          });
 
          if (response.ok) {
-            const userRes = await fetch("http://localhost:8080/api/auth/me", {
+            const userRes = await fetch("/api/auth/me", {
                credentials: "include",
             });
 

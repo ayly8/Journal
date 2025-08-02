@@ -3,10 +3,43 @@ import PropTypes from 'prop-types';
 import { Calendar } from 'primereact/calendar';
 import '../css/entrymodal.css'
 
-function EntryModal({ onClose }) {
+function EntryModal({ onClose, currentUser }) {
    const [title, setTitle] = useState("");
    const [date, setDate] = useState(null);
    const [content, setContent] = useState("");
+
+   const handleSubmit = async() => {
+      console.log("submit clicked");
+      const selectedDate = date ? date.toISOString().split('T')[0] : null;  // "YYYY-MM-DD"
+
+      const newEntry = {
+         title: title,
+         entry: content,
+         dateSelected: selectedDate,
+         userId: currentUser?.id,
+      };
+
+      try {
+         const response = await fetch("/api/entries", {
+            method: "POST",
+            headers: {
+               "Content-Type": "application/json",
+            },
+            credentials: "include", // if using cookies for auth
+            body: JSON.stringify(newEntry),
+         });
+
+         if (response.ok) {
+            console.log("Entry created!");
+            onClose();
+         } else {
+            const errorText = await response.text();
+            console.error("Failed to create entry. Status:", response.status, errorText);
+         }
+      } catch (error) {
+         console.error("Error submitting entry:", error);
+      }
+   };
 
    return (
       <>
@@ -37,7 +70,7 @@ function EntryModal({ onClose }) {
                   placeholder="Write something here..."
                   value={content}
                   onChange={(e) => setContent(e.target.value)}/>
-               <button className="create-btn">Create</button>
+               <button className="create-btn" onClick={handleSubmit}>Create</button>
             </div>
          </div>
       </>
@@ -46,6 +79,7 @@ function EntryModal({ onClose }) {
 
 EntryModal.propTypes = {
    onClose: PropTypes.func.isRequired,
+   currentUser: PropTypes.object,
 };
 
 export default EntryModal;

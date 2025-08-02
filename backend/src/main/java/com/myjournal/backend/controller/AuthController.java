@@ -46,10 +46,12 @@ public class AuthController {
    // validates user credentials and creates a session if validated
    @PostMapping("/login") // POST /api/auth/login
    public ResponseEntity<?> login(@RequestBody LoginRequest body, HttpSession session) {
+      System.out.println("login controller");
       boolean isValid = userService.validateUser(body.getUsername(), body.getPassword());
       if (isValid) {
          // store username in session to keep the user logged in
          session.setAttribute("user", body.getUsername());
+         System.out.println("User logged in: " + body.getUsername());
          // if no errors, return success message
          return ResponseEntity.ok("Login successful");
       } else {

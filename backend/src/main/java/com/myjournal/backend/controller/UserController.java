@@ -1,5 +1,6 @@
 package com.myjournal.backend.controller;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import com.myjournal.backend.model.User;
 import com.myjournal.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
