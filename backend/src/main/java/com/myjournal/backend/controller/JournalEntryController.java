@@ -24,8 +24,20 @@ public class JournalEntryController {
 
    // Get all entries
    @GetMapping
-   public List<JournalEntry> getEntriesForCurrentUser(@RequestParam String userId) {
-      return journalEntryRepository.findByUserId(userId);
+   // public List<JournalEntry> getEntriesForCurrentUser(@RequestParam String
+   // userId) {
+   // return journalEntryRepository.findByUserId(userId);
+   // }
+
+   public ResponseEntity<?> getEntriesForCurrentUser(HttpSession session) {
+      String username = (String) session.getAttribute("user");
+
+      if (username == null) {
+         return ResponseEntity.status(403).body("Not authenticated");
+      }
+
+      List<JournalEntry> entries = journalEntryRepository.findByUserId(username);
+      return ResponseEntity.ok(entries);
    }
 
    // Create new entry

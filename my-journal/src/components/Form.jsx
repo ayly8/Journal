@@ -43,9 +43,9 @@ function Form({ setIsLoggedIn, setCurrentUser }) {
             });
 
             if (userRes.ok) {
-               const user = await userRes.text();
+               const { username } = await userRes.json();
                setIsLoggedIn(true);
-               setCurrentUser(user);
+               setCurrentUser(username);
                navigate("/dashboard");
             }
          } else {

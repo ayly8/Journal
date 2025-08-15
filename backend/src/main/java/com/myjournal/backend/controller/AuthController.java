@@ -15,6 +15,7 @@ import com.myjournal.backend.model.User;
 import com.myjournal.backend.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
+import java.util.Map;
 
 // handles authenticated-related API endpoints for user registration/logout/login etc.
 @RestController
@@ -66,10 +67,10 @@ public class AuthController {
       Object username = session.getAttribute("user");
       if (username != null) {
          // if user is logged in, return their username
-         return ResponseEntity.ok(username);
+         return ResponseEntity.ok(Map.of("username", username.toString()));
       } else {
          // if user isn't logged in, return 401 Unauthorized
-         return ResponseEntity.status(401).body("Not logged in");
+         return ResponseEntity.status(401).body(Map.of("error", "Not authenticated"));
       }
    }
 

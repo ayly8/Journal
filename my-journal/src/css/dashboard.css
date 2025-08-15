@@ -2,7 +2,7 @@
    background-color: #D9A0CE;
    color: black;
    border: none;
-   border-radius: 50px;
+   border-radius: 10px;
    padding: 12px 45px;
    letter-spacing: 1px;
    text-transform: uppercase;
@@ -13,4 +13,28 @@
    background-color: black;
    color: white;
    cursor: pointer;
+}
+
+.dashboard-container {
+   padding: 20px;
+}
+
+.dashboard-header {
+   display: flex;
+   gap: 16px;
+   justify-content: space-evenly;
+   margin-bottom: 24px;
+}
+
+.entries-grid {
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+   gap: 24px;
+}
+
+.entry-card {
+   background: white;
+   padding: 16px;
+   border-radius: 10px;
+   box-shadow: 10px 10px black;
 }

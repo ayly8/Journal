@@ -9,7 +9,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/auth/me", {
+    fetch("/api/auth/me", {
       credentials: "include",
     })
       .then(async (res) => {
