@@ -38,3 +38,8 @@
    border-radius: 10px;
    box-shadow: 10px 10px black;
 }
+
+.edit-btns {
+   display: flex;
+   justify-content: space-evenly;
+}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import EntryModal from '../components/EntryModal'
+import EditModal from '../components/EditModal'
 import '../css/dashboard.css'
 
 function Dashboard() {
@@ -10,6 +11,7 @@ function Dashboard() {
   const [showModal, setShowModal] = useState(false);
   const [entries, setEntries] = useState([]);
   const navigate = useNavigate();
+  const [editingEntry, setEditingEntry] = useState(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -81,6 +83,15 @@ function Dashboard() {
               <h3>{userEntry.title}</h3>
               <p>{userEntry.entry}</p>
               <p>{userEntry.dateSelected}</p>
+              <div className="edit-btns">
+                <button className="editentry-btn" onClick={() => setEditingEntry(userEntry)}>
+                  Edit Entry
+                </button>
+                {editingEntry && (
+                  <EditModal entry={editingEntry} onClose={() => setEditingEntry(false)} />
+                )}
+                <button className="deleteentry-btn">Delete Entry</button>
+              </div>
             </div>
           ))
         ) : (
