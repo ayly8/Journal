@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Calendar } from 'primereact/calendar';
 import '../css/entrymodal.css'
 
-function EntryModal({ onClose, currentUser }) {
+function EntryModal({ currentUser, onClose, onCreate }) {
    const [title, setTitle] = useState("");
    const [date, setDate] = useState(null);
    const [content, setContent] = useState("");
@@ -25,13 +25,18 @@ function EntryModal({ onClose, currentUser }) {
             headers: {
                "Content-Type": "application/json",
             },
-            credentials: "include", // if using cookies for auth
+            credentials: "include", 
             body: JSON.stringify(newEntry),
          });
 
          if (response.ok) {
+            const createdEntry = await response.json();
+            onCreate(createdEntry)
             console.log("Entry created!");
-            onClose();
+
+            setTitle("");
+            setDate(null);
+            setContent("");
          } else {
             const errorText = await response.text();
             console.error("Failed to create entry. Status:", response.status, errorText);
@@ -78,8 +83,9 @@ function EntryModal({ onClose, currentUser }) {
 }
 
 EntryModal.propTypes = {
-   onClose: PropTypes.func.isRequired,
    currentUser: PropTypes.object,
+   onClose: PropTypes.func.isRequired,
+   onCreate: PropTypes.func.isRequired,
 };
 
 export default EntryModal;

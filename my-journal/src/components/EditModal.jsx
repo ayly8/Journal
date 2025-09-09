@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Calendar } from 'primereact/calendar';
 import '../css/editmodal.css'
 
-function EditModal({ onClose, entry }) {
+function EditModal({ entry, onClose, onUpdate }) {
    const [editTitle, setEditTitle] = useState(entry.title);
    const [editDate, setEditDate] = useState(entry.dateSelected ? new Date(entry.dateSelected) : new Date());
    const [editContent, setEditContent] = useState(entry.entry);
@@ -26,7 +26,9 @@ function EditModal({ onClose, entry }) {
          });
 
          if (response.ok) {
-            console.log("Updated entry!");
+            const saveUpdatedEntry = await response.json();
+            onUpdate(saveUpdatedEntry)
+            console.log("Saved the updated entry!");
             onClose();
          } else {
             const errorText = await response.text();
@@ -71,8 +73,9 @@ function EditModal({ onClose, entry }) {
 }
 
 EditModal.propTypes = {
-   onClose: PropTypes.func.isRequired,
    entry: PropTypes.object.isRequired,
+   onClose: PropTypes.func.isRequired,
+   onUpdate: PropTypes.func.isRequired,
 };
 
 export default EditModal;

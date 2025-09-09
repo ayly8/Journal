@@ -85,6 +85,9 @@ public class JournalEntryController {
    // Delete an entry
    @DeleteMapping("/{id}")
    public ResponseEntity<Void> deleteEntry(@PathVariable String id) {
+      if (!journalEntryRepository.existsById(id)) {
+         return ResponseEntity.notFound().build();
+      }
       journalEntryRepository.deleteById(id);
       return ResponseEntity.noContent().build();
    }

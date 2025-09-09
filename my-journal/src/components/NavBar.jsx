@@ -4,29 +4,6 @@ import PropTypes from "prop-types";
 function NavBar({ isLoggedIn, setIsLoggedIn, currentUser, setCurrentUser }) {
    const navigate = useNavigate();
 
-   const fetchUser = async () => {
-      try {
-         const res = await fetch("/api/auth/me", {
-            credentials: "include",
-         });
-
-         if (res.ok) {
-            const data = await res.json();
-            setCurrentUser(data.username);
-            setIsLoggedIn(true);
-         } else {
-            alert(`${res.status}`);
-         }         
-      } catch (err) {
-         console.error('NavBar fetch user failed:', err);
-         setIsLoggedIn(false);
-         setCurrentUser("");
-         navigate("/");
-      }
-      return
-   };
-   fetchUser();
-
    const handleLogout = async () => {
       try {
          const res = await fetch("/api/auth/logout", {
@@ -62,10 +39,10 @@ function NavBar({ isLoggedIn, setIsLoggedIn, currentUser, setCurrentUser }) {
 }
 
 NavBar.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired,
-  setIsLoggedIn: PropTypes.func.isRequired,
-  currentUser: PropTypes.string.isRequired,
-  setCurrentUser: PropTypes.func.isRequired,
+   isLoggedIn: PropTypes.bool.isRequired,
+   setIsLoggedIn: PropTypes.func.isRequired,
+   currentUser: PropTypes.string.isRequired,
+   setCurrentUser: PropTypes.func.isRequired,
 };
 
 export default NavBar

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import EntryModal from '../components/EntryModal'
 import EditModal from '../components/EditModal'
+import DeleteModal from '../components/DeleteModal'
 import '../css/dashboard.css'
 
 function Dashboard() {
@@ -12,6 +13,7 @@ function Dashboard() {
   const [entries, setEntries] = useState([]);
   const navigate = useNavigate();
   const [editingEntry, setEditingEntry] = useState(null);
+  const [deletingEntry, setDeletingEntry] = useState(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -25,7 +27,7 @@ function Dashboard() {
         }
 
         const data = await res.json();
-        setCurrentUser(data.username); // or however you store it
+        setCurrentUser(data.username);
         setLoggedIn(true);
       } catch (err) {
         console.error('Auth check failed:', err);
@@ -36,10 +38,10 @@ function Dashboard() {
       }
     };
     fetchUser();
-  }, [navigate]); // runs only once
+  }, [navigate]); 
 
   useEffect(() => {
-    if (!loggedIn) return; // Don't fetch until user confirmed
+    if (!loggedIn) return; 
 
     const fetchDashboardData = async () => {
       try {
@@ -59,7 +61,7 @@ function Dashboard() {
     };
 
     fetchDashboardData();
-  }, [loggedIn]); // only runs when user login status changes
+  }, [loggedIn]); 
 
   if (loading) return <div>Loading...</div>;
 
@@ -73,7 +75,14 @@ function Dashboard() {
           Welcome to MyJournal! This is your personal space to write, reflect, and keep your thoughts organized.
         </p>
         {showModal && (
-          <EntryModal onClose={() => setShowModal(false)} currentUser={currentUser} />
+          <EntryModal
+            onClose={() => setShowModal(false)}
+            currentUser={currentUser}
+            onCreate={(newEntry) => {
+              setEntries([...entries, newEntry]);
+              setShowModal(false);
+            }}
+          />
         )}
       </div>
       <div className="entries-grid">
@@ -87,16 +96,38 @@ function Dashboard() {
                 <button className="editentry-btn" onClick={() => setEditingEntry(userEntry)}>
                   Edit Entry
                 </button>
-                {editingEntry && (
-                  <EditModal entry={editingEntry} onClose={() => setEditingEntry(false)} />
-                )}
-                <button className="deleteentry-btn">Delete Entry</button>
+                <button className="deleteentry-btn" onClick={() => setDeletingEntry(userEntry)}>
+                  Delete Entry
+                </button>
               </div>
             </div>
           ))
         ) : (
           <p>No entries yet. Create one to get started!</p>
         )}
+
+        {editingEntry && (
+          <EditModal 
+            entry={editingEntry}
+            onClose={() => setEditingEntry(null)}
+            onUpdate={(updatedEntry) => {
+              setEntries(entries.map(e => e.id === updatedEntry.id ? updatedEntry : e));
+              setEditingEntry(null);
+            }}
+          />
+        )}
+
+        {deletingEntry && (
+          <DeleteModal 
+            entry={deletingEntry} 
+            onClose={() => setDeletingEntry(null)} 
+            onDelete={(id) => {
+              setEntries(entries.filter(e => e.id !== id));
+              setDeletingEntry(null);
+            }}
+          />
+        )}
+
       </div>
     </div>
   );
