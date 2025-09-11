@@ -48,13 +48,13 @@ function EntryModal({ currentUser, onClose, onCreate }) {
 
    return (
       <>
-         <div className="modal-overlay">
-            <div className="modal-container"> 
-               <div className="modal-top">
+         <div className="entrymodal-overlay">
+            <div className="entrymodal-container"> 
+               <div className="entrymodal-top">
                   <h2>Create New Entry</h2>
                   <button className="exit-btn" onClick={onClose}>X</button>
                </div>
-               <div className="modal-mid">
+               <div className="entrymodal-mid">
                   <input
                      className="modal-input"
                      type="text"

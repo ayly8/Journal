@@ -24,14 +24,16 @@ function DeleteModal({entry, onDelete, onClose}) {
 
    return (
       <>
-         <div>
-            <div className="deletemodal-top">
-               <h2>Delete this entry?</h2>
-               <button className="deletemodal-exit-btn" onClick={onClose}>X</button>
-            </div>
-            <div className="confirm-btns">
-               <button className="yes-btn" onClick={handleDelete}>Yes</button>
-               <button className="no-btn" onClick={onClose}>No</button>
+         <div className="deletemodal-overlay">
+            <div className="deletemodal-container">
+               <div className="deletemodal-top">
+                  <h2>Delete this entry forever?</h2>
+                  <button className="deletemodal-exit-btn" onClick={onClose}>X</button>
+               </div>
+               <div className="confirm-btns">
+                  <button className="yes-btn" onClick={handleDelete}>Yes</button>
+                  <button className="no-btn" onClick={onClose}>No</button>
+               </div>
             </div>
          </div>
       </>

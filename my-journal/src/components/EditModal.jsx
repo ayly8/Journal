@@ -41,13 +41,13 @@ function EditModal({ entry, onClose, onUpdate }) {
 
    return (
       <>
-         <div className="modal-overlay">
-            <div className="modal-container"> 
-               <div className="modal-top">
+         <div className="editmodal-overlay">
+            <div className="editmodal-container"> 
+               <div className="editmodal-top">
                   <h2>Edit Entry</h2>
                   <button className="exit-btn" onClick={onClose}>X</button>
                </div>
-               <div className="modal-mid">
+               <div className="editmodal-mid">
                   <input
                      className="modal-input"
                      type="text"

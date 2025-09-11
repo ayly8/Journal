@@ -1,33 +1,32 @@
-.modal-overlay {
+.editmodal-overlay {
    position: fixed;
    top: 0;
    left: 0;
    width: 100vw;
    height: 100vh;
-   /* background-color: rgba(160, 206, 217, 0.3);
-   backdrop-filter: blur(5px); */
    display: flex;
    justify-content: center;
    align-items: center;
 }
 
-.modal-top {
+.editmodal-top {
    display: flex;
    justify-content: space-between;
 }
 
-.modal-mid {
+.editmodal-mid {
    display: flex;
    gap: 10px;
    align-items: center;
 }
 
-.modal-container {
+.editmodal-container {
    background-color: white;
+   border: 2px solid #000000;
    border-radius: 10px;
    padding: 16px;
    gap: 10px;
-   width: 80%;
+   width: 70%;
    display: flex;
    flex-direction: column;
 }
