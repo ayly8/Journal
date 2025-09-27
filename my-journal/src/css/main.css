@@ -57,3 +57,18 @@
   color: white;
   font-size: 32px;
 }
+
+#welcome {
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+#link {
+  color: #000000;
+}
+
+#link:hover {
+  cursor: pointer;
+  color: #FFFFFF;
+}
