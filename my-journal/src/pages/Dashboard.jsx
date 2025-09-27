@@ -4,6 +4,7 @@ import EntryModal from '../components/EntryModal'
 import EditModal from '../components/EditModal'
 import DeleteModal from '../components/DeleteModal'
 import '../css/dashboard.css'
+import journaling from '../assets/journaling.png'
 
 function Dashboard() {
   const [loading, setLoading] = useState(true);
@@ -68,22 +69,28 @@ function Dashboard() {
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
-        <button className="createentry-btn" onClick={() => setShowModal(true)}>
-          Create Entry
-        </button>
-        <p className="dashboard-description">
-          Welcome to MyJournal! This is your personal space to write, reflect, and keep your thoughts organized.
-        </p>
-        {showModal && (
-          <EntryModal
-            onClose={() => setShowModal(false)}
-            currentUser={currentUser}
-            onCreate={(newEntry) => {
-              setEntries([...entries, newEntry]);
-              setShowModal(false);
-            }}
-          />
-        )}
+        <div>
+          <img id="journal-icon" src={journaling} alt="journal icon" loading="lazy"/>
+        </div>
+        <div>
+          <p className="dashboard-description">
+            Welcome to MyJournal! This is your personal space to write, reflect, and keep your thoughts organized.
+            Create an entry to get started.
+          </p>
+          <button className="createentry-btn" onClick={() => setShowModal(true)}>
+            Create Entry
+          </button>
+          {showModal && (
+            <EntryModal
+              onClose={() => setShowModal(false)}
+              currentUser={currentUser}
+              onCreate={(newEntry) => {
+                setEntries([...entries, newEntry]);
+                setShowModal(false);
+              }}
+            />
+          )}
+        </div>
       </div>
       <div className="entries-grid">
         {entries.length > 0 ? (
