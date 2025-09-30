@@ -1,13 +1,13 @@
 #journal-title {
   font-size: 32px;
-  color: white;
+  color: #FFFFFF;
   text-decoration: none;
   font-weight: normal;
 }
 
 #nav {
-  background-color: black;
-  color: white;
+  background-color: #000000;
+  color: #FFFFFF;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -25,7 +25,7 @@
 
 #nav li a, #nav li button {
   display: block;
-  color: white;
+  color: #FFFFFF;
   font-size: 24px;
   text-align: center;
   padding: 14px 16px;
@@ -42,7 +42,7 @@
   display: block;
   margin-top: 5px;
   right: 0;
-  background: white;
+  background: #FFFFFF;
   transition: width 0.3s ease, background-color 0.3s ease;
 }
 
@@ -54,7 +54,7 @@
 #nav li button {
   background: transparent;
   border: none;
-  color: white;
+  color: #FFFFFF;
   font-size: 32px;
 }
 

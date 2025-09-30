@@ -1,6 +1,6 @@
 .createentry-btn {
    background-color: #D9A0CE;
-   color: black;
+   color: #000000;
    border: none;
    border-radius: 50px;
    padding: 12px 45px;
@@ -10,8 +10,8 @@
 }
 
 .createentry-btn:hover {
-   background-color: black;
-   color: white;
+   background-color: #000000;
+   color: #FFFFFF;
    cursor: pointer;
 }
 
@@ -39,7 +39,7 @@
 
 .entries-grid {
    display: grid;
-   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
    gap: 24px;
 }
 

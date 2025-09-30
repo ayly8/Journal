@@ -15,7 +15,7 @@
 }
 
 .deletemodal-container {
-   background-color: white;
+   background-color: #FFFFFF;
    border: 2px solid #000000;
    border-radius: 10px;
    padding: 16px;
@@ -27,7 +27,7 @@
 
 .deletemodal-exit-btn, .yes-btn, .no-btn {
    background-color: #D9A0CE;
-   color: black;
+   color: #000000;
    border: none;
    border-radius: 50px;
    padding: 12px 45px;
@@ -38,8 +38,8 @@
 }  
 
 .deletemodal-exit-btn:hover, .yes-btn:hover, .no-btn:hover {
-   background-color: black;
-   color: white;
+   background-color: #000000;
+   color: #FFFFFF;
    cursor: pointer;
 }
 

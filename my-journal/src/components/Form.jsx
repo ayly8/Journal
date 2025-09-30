@@ -49,8 +49,7 @@ function Form({ setIsLoggedIn, setCurrentUser }) {
                navigate("/dashboard");
             }
          } else {
-            const errorText = await response.text();
-            alert("Login/Register failed: " + errorText);
+            alert("Login/Register failed");
          }
       } catch (err) {
             console.error("Error occurred!", err);

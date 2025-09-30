@@ -7,7 +7,6 @@ function Tutorial(props) {
       <div className="tutorial">
          <h2 className="desc-title">{props.title}</h2>
          <h4 className="desc-duration">{props.desc}</h4>
-         <img className="proj-img" src={props.img} alt={props.imgDesc}></img>
       </div>
    );
 }
@@ -16,8 +15,6 @@ function Tutorial(props) {
 Tutorial.propTypes= {
    title: PropTypes.string.isRequired,
    desc: PropTypes.string.isRequired,
-   img: PropTypes.string.isRequired,
-   imgDesc: PropTypes.string.isRequired,
 }
 
 export default Tutorial
