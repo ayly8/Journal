@@ -9,6 +9,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState("");
 
+  // check if user is already logged in or not for navbar component
   useEffect(() => {
     fetch("/api/auth/me", {
       credentials: "include",
@@ -39,6 +40,7 @@ function App() {
           setCurrentUser={setCurrentUser} 
         />
 
+        {/* if user is not logged in, show homepage content */}
         {!isLoggedIn ? (
           <>
             <p id="welcome">Welcome to MyJournal, get started&nbsp;<a id="link" href="#form-id">now</a>!</p>
@@ -61,6 +63,7 @@ function App() {
             />
           </>
         ) : (
+          // if user is logged in show the dashboard page
           <Routes>
             <Route
               path="/dashboard"

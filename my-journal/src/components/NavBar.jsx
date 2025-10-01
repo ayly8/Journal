@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom"
 import PropTypes from "prop-types";
 
+// this component creates the navbar section
 function NavBar({ isLoggedIn, setIsLoggedIn, currentUser, setCurrentUser }) {
    const navigate = useNavigate();
 
@@ -38,6 +39,7 @@ function NavBar({ isLoggedIn, setIsLoggedIn, currentUser, setCurrentUser }) {
    );
 }
 
+// specify what type of variable is required for each prop
 NavBar.propTypes = {
    isLoggedIn: PropTypes.bool.isRequired,
    setIsLoggedIn: PropTypes.func.isRequired,

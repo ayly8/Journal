@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import '../css/tutorial.css'
 
+// this component creates a tutorial description section
 function Tutorial(props) {
    
    return (

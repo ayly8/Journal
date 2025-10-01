@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Calendar } from 'primereact/calendar';
 import '../css/entrymodal.css'
 
+// this component is for the create entry popup modal
 function EntryModal({ currentUser, onClose, onCreate }) {
    const [title, setTitle] = useState("");
    const [date, setDate] = useState(null);
@@ -12,6 +13,7 @@ function EntryModal({ currentUser, onClose, onCreate }) {
       console.log("submit clicked");
       const selectedDate = date ? date.toISOString().split('T')[0] : null;  // "YYYY-MM-DD"
 
+      // store user response in a variable
       const newEntry = {
          title: title,
          entry: content,
@@ -20,15 +22,17 @@ function EntryModal({ currentUser, onClose, onCreate }) {
       };
 
       try {
+         // create an entry using that variable
          const response = await fetch("/api/entries", {
             method: "POST",
             headers: {
                "Content-Type": "application/json",
             },
             credentials: "include", 
-            body: JSON.stringify(newEntry),
+            body: JSON.stringify(newEntry), // json format
          });
 
+         // if the response goes through, notify user and clear entry 
          if (response.ok) {
             const createdEntry = await response.json();
             onCreate(createdEntry)
@@ -82,6 +86,7 @@ function EntryModal({ currentUser, onClose, onCreate }) {
    );
 }
 
+// specify what type of variable is required for each prop
 EntryModal.propTypes = {
    currentUser: PropTypes.object,
    onClose: PropTypes.func.isRequired,

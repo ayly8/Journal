@@ -37,6 +37,12 @@
    width: 120px;
 }
 
+/* grid template columns - how many columns grid should have and how wide they should be
+repeat() - set up columns automatically
+auto-fill - fill row with as many columns as it can fix
+minmax(300px, 1fr) - each column should be at least 300px wide, but can grow up to 1fr 
+(flexible unit that expands to fill remaining space)
+*/
 .entries-grid {
    display: grid;
    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

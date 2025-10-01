@@ -1,10 +1,13 @@
 import PropTypes from 'prop-types';
 import '../css/deletemodal.css'
 
+// this component is for delete entry popup modal
 function DeleteModal({entry, onDelete, onClose}) {
 
+   // delete button logic
    const handleDelete = async() => {
       try {
+         // fetch the specific journal entry from db, if response goes through delete entry if user selects "yes"
          const response = await fetch(`/api/entries/${entry.id}`, {
             method: "DELETE",
             credentials: "include",
@@ -40,6 +43,7 @@ function DeleteModal({entry, onDelete, onClose}) {
    )
 }
 
+// specify what type of variable is required for each prop
 DeleteModal.propTypes = {
    entry: PropTypes.object.isRequired,
    onDelete: PropTypes.func.isRequired,

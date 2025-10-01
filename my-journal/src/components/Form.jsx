@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import "../css/form.css";
 
+// this component is for the login/register sliding window form
 function Form({ setIsLoggedIn, setCurrentUser }) {
    const [isActive, setIsActive] = useState(false);
    const [name, setName] = useState("");
@@ -13,6 +14,7 @@ function Form({ setIsLoggedIn, setCurrentUser }) {
 
    const navigate = useNavigate();
 
+   // signup and signin button states for which side is active
    const handleSignUpClick = () => {
       setIsActive(true);
       console.log("Sign Up Clicked! isActive:", true);
@@ -23,8 +25,11 @@ function Form({ setIsLoggedIn, setCurrentUser }) {
       console.log("Sign In Clicked! isActive:", false);
    };
 
+   // submit button logic
    const handleSubmit = async (endpoint) => {
       try {
+         // if endpont is register, send user reponse to db and store new user
+         // if endpoint is login, fetch user details from db and login if user exists
          const body =
             endpoint === "register"
                ? { username: name, email, password }
@@ -37,6 +42,7 @@ function Form({ setIsLoggedIn, setCurrentUser }) {
             body: JSON.stringify(body),
          });
 
+         // if login works, take user to dashboard otherwise show user the error msg
          if (response.ok) {
             const userRes = await fetch("/api/auth/me", {
                credentials: "include",
@@ -115,6 +121,7 @@ function Form({ setIsLoggedIn, setCurrentUser }) {
    );
 }
 
+// specify what type of variable is required for each prop
 Form.propTypes = {
   setIsLoggedIn: PropTypes.func.isRequired,
   setCurrentUser: PropTypes.func.isRequired,

@@ -6,6 +6,7 @@ import DeleteModal from '../components/DeleteModal'
 import '../css/dashboard.css'
 import journaling from '../assets/journaling.png'
 
+// this is the component for the user dashboard once they login
 function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState('');
@@ -16,6 +17,7 @@ function Dashboard() {
   const [editingEntry, setEditingEntry] = useState(null);
   const [deletingEntry, setDeletingEntry] = useState(null);
 
+  // fetches current user and makes sure user is logged in to see the dashboard
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -41,6 +43,7 @@ function Dashboard() {
     fetchUser();
   }, [navigate]); 
 
+  // fetches and displays the users entries from the db onto the dashboard
   useEffect(() => {
     if (!loggedIn) return; 
 
@@ -80,6 +83,7 @@ function Dashboard() {
           <button className="createentry-btn" onClick={() => setShowModal(true)}>
             Create Entry
           </button>
+          {/* entry popup modal shown when "create" button is clicked */}
           {showModal && (
             <EntryModal
               onClose={() => setShowModal(false)}
@@ -92,6 +96,8 @@ function Dashboard() {
           )}
         </div>
       </div>
+
+      {/* each entry is displayed the same way to be uniform */}
       <div className="entries-grid">
         {entries.length > 0 ? (
           entries.map((userEntry) => (
@@ -113,6 +119,7 @@ function Dashboard() {
           <p>No entries yet. Create one to get started!</p>
         )}
 
+        {/* edit and delete popup modals shown if corresponding buttons are clicked */}
         {editingEntry && (
           <EditModal 
             entry={editingEntry}
