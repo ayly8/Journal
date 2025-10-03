@@ -5,19 +5,22 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
+// connects to MongoDB collection called "JournalEntries"
 @Document(collection = "JournalEntries")
 public class JournalEntry {
 
+   // primary key (_id field in MongoDB)
    @Id
    private String id;
 
+   // journal entry fields stored in each document of the collection
    private String userId;
    private String title;
    private String entry;
    private String dateSelected;
    private LocalDateTime dateCreated;
 
-   // Constructors
+   // constructors
    public JournalEntry() {
    }
 
@@ -29,7 +32,7 @@ public class JournalEntry {
       this.dateCreated = dateCreated;
    }
 
-   // Getters and setters
+   // getters and setters for Mongodb document ID
    public String getId() {
       return id;
    }

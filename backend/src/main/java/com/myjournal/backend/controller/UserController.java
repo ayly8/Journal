@@ -12,7 +12,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
-// defines API endpoints for user-related operations, aka API controller file
+// defines API endpoints for user-related operations
 @RestController
 @RequestMapping("/api/users")
 // allow frontend (React) to connect with backend

@@ -32,7 +32,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) // disable CSRF - cross site request forgery (ok for APIs using sessions)
             .authorizeHttpRequests(auth -> auth
                   .requestMatchers("/api/auth/**").permitAll() // allow anyone to access register/login endpoints
-                  .requestMatchers("/api/entries/**").permitAll()
+                  .requestMatchers("/api/entries/**").permitAll() // allow anyone to access entries endpoints
                   .anyRequest().authenticated()) // but everything else needs authentication
             .formLogin(form -> form.disable()) // disable default Spring Boot login form
             .userDetailsService(customUserDetailsService)
