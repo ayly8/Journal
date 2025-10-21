@@ -2,6 +2,7 @@
 Website where users can sign-up/login to their account to create, update, and delete journal entries! (current project, final name tbd)
 
 # :computer: Links
+- ### [Demo](https://youtu.be/_57uyplUtDc)
 - ### [Figma](https://www.figma.com/design/8QWv33FFl4FM6KgtPWDH9l/Journal-Proj?node-id=0-1&t=n4FXqSd2guCzB5D1-1)
 
 # :gear: Tools/Resources
