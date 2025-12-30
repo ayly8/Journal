@@ -2,6 +2,7 @@ import { useState } from "react";
 import PropTypes from 'prop-types';
 import { Calendar } from 'primereact/calendar';
 import '../css/editmodal.css'
+import { API_BASE_URL } from '../Url';
 
 // this component is for edit entry popup modal
 function EditModal({ entry, onClose, onUpdate }) {
@@ -21,7 +22,7 @@ function EditModal({ entry, onClose, onUpdate }) {
       try {
          // fetch specific journal entry details from the db
          // update specific journal entry with the new variable
-         const response = await fetch(`/api/entries/${entry.id}`, {
+         const response = await fetch(`${API_BASE_URL}/api/entries/${entry.id}`, {
             method: "PUT",
             headers: {
                "Content-Type": "application/json",

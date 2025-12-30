@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:8080',
+        target: 'https://myjournalapp-api.azurewebsites.net',
         changeOrigin: true,
         secure: false,
       },

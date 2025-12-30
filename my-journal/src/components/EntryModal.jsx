@@ -2,6 +2,7 @@ import {useState} from 'react'
 import PropTypes from 'prop-types';
 import { Calendar } from 'primereact/calendar';
 import '../css/entrymodal.css'
+import { API_BASE_URL } from '../Url';
 
 // this component is for the create entry popup modal
 function EntryModal({ currentUser, onClose, onCreate }) {
@@ -23,7 +24,7 @@ function EntryModal({ currentUser, onClose, onCreate }) {
 
       try {
          // create an entry using that variable
-         const response = await fetch("/api/entries", {
+         const response = await fetch(`${API_BASE_URL}/api/entries`, {
             method: "POST",
             headers: {
                "Content-Type": "application/json",

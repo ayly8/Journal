@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import '../css/tutorial.css'
+import { API_BASE_URL } from '../Url';
 
 // this component creates a tutorial description section
 function Tutorial(props) {

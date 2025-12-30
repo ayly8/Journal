@@ -2,6 +2,7 @@ package com.myjournal.backend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -16,47 +17,70 @@ import com.myjournal.backend.service.CustomUserDetailsService;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-   @Autowired
-   private CustomUserDetailsService customUserDetailsService;
+      @Autowired
+      private CustomUserDetailsService customUserDetailsService;
 
-   @Bean
-   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-      http
-            .cors(withDefaults()) // enable CORS - cross origin resource sharing
-            .csrf(csrf -> csrf.disable()) // disable CSRF - cross site request forgery (ok for APIs using sessions)
-            .authorizeHttpRequests(auth -> auth
-                  .requestMatchers("/api/auth/**").permitAll() // allow anyone to access register/login endpoints
-                  .requestMatchers("/api/entries/**").permitAll() // allow anyone to access entries endpoints
-                  .anyRequest().authenticated()) // but everything else needs authentication
-            .formLogin(form -> form.disable()) // disable default Spring Boot login form
-            .userDetailsService(customUserDetailsService)
-            .sessionManagement(session -> session
-                  .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)); // create sessions only if needed
-      return http.build();
-   }
+      @Bean
+      public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+            http
+                        // for CORS to work with Spring Security
+                        .cors(withDefaults())
 
-   @Bean
-   public CorsConfigurationSource corsConfigurationSource() {
-      CorsConfiguration config = new CorsConfiguration();
-      config.setAllowCredentials(true); // allow cookies/sessions
-      config.addAllowedOrigin("http://localhost:5173"); // allow frontend to access backend
-      config.addAllowedHeader("*"); // allow all headers (Authorization, etc.)
-      config.addAllowedMethod("*"); // allow all methods (GET, POST, etc.)
+                        // for session-based APIs
+                        .csrf(csrf -> csrf
+                                    .ignoringRequestMatchers("/api/**"))
 
-      UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-      source.registerCorsConfiguration("/**", config); // apply CORS config to all routes
-      return source;
-   }
+                        .authorizeHttpRequests(auth -> auth
+                                    // for browser preflight aka
+                                    // HTTP request sent by browsers to a server to check for CORS permission
+                                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-   @Bean
-   public PasswordEncoder passwordEncoder() {
-      // hashes passwords before storing them
-      return new BCryptPasswordEncoder();
-   }
+                                    // for public endpoints
+                                    .requestMatchers("/api/auth/**").permitAll()
+                                    .requestMatchers("/api/entries/**").permitAll()
+
+                                    // for everything else requires login
+                                    .anyRequest().authenticated())
+
+                        // disable the default login page
+                        .formLogin(form -> form.disable())
+
+                        // for custom user lookup
+                        .userDetailsService(customUserDetailsService)
+
+                        .sessionManagement(session -> session
+                                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
+            return http.build();
+      }
+
+      @Bean
+      public CorsConfigurationSource corsConfigurationSource() {
+            CorsConfiguration config = new CorsConfiguration();
+            config.setAllowCredentials(true); // allow cookies/sessions
+            // allowed origins
+            config.setAllowedOrigins(Arrays.asList(
+                        "http://localhost:5173", // developer link
+                        "https://myjournalapp-prod.azurewebsites.net" // production link
+            ));
+            config.addAllowedHeader("*"); // allow all headers (Authorization, etc.)
+            config.addAllowedMethod("*"); // allow all methods (GET, POST, etc.)
+
+            UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+            source.registerCorsConfiguration("/**", config); // apply CORS config to all routes
+            return source;
+      }
+
+      @Bean
+      public PasswordEncoder passwordEncoder() {
+            // hashes passwords before storing them
+            return new BCryptPasswordEncoder();
+      }
 }

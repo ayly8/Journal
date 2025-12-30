@@ -4,6 +4,7 @@ import NavBar from './components/NavBar.jsx';
 import Tutorial from './components/Tutorial.jsx'
 import Form from './components/Form.jsx'
 import Dashboard from './pages/Dashboard.jsx'
+import { API_BASE_URL } from "./Url.jsx";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -11,7 +12,7 @@ function App() {
 
   // check if user is already logged in or not for navbar component
   useEffect(() => {
-    fetch("/api/auth/me", {
+    fetch(`${API_BASE_URL}/api/auth/me`, {
       credentials: "include",
     })
       .then(async (res) => {

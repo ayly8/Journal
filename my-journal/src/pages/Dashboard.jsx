@@ -5,6 +5,7 @@ import EditModal from '../components/EditModal'
 import DeleteModal from '../components/DeleteModal'
 import '../css/dashboard.css'
 import journaling from '../assets/journaling.png'
+import { API_BASE_URL } from '../Url';
 
 // this is the component for the user dashboard once they login
 function Dashboard() {
@@ -21,7 +22,7 @@ function Dashboard() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch("/api/auth/me", {
+        const res = await fetch(`${API_BASE_URL}/api/auth/me`, {
           credentials: "include",
         });
 
@@ -49,7 +50,7 @@ function Dashboard() {
 
     const fetchDashboardData = async () => {
       try {
-        const res = await fetch("/api/entries", {
+        const res = await fetch(`${API_BASE_URL}/api/entries`, {
           credentials: "include",
         });
 

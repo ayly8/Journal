@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import '../css/deletemodal.css'
+import { API_BASE_URL } from '../Url';
 
 // this component is for delete entry popup modal
 function DeleteModal({entry, onDelete, onClose}) {
@@ -8,7 +9,7 @@ function DeleteModal({entry, onDelete, onClose}) {
    const handleDelete = async() => {
       try {
          // fetch the specific journal entry from db, if response goes through delete entry if user selects "yes"
-         const response = await fetch(`/api/entries/${entry.id}`, {
+         const response = await fetch(`${API_BASE_URL}/api/entries/${entry.id}`, {
             method: "DELETE",
             credentials: "include",
          });

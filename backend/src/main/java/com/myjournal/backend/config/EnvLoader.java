@@ -9,6 +9,7 @@ public class EnvLoader {
             Dotenv dotenv = Dotenv.configure()
                         .directory("./") // looks in backend/.env directory
                         .filename(".env") // finds and uses the .env file
+                        .ignoreIfMissing() // if .env isn't there, ignore the error
                         .load(); // loads the environment variables
 
             // MongoDB connection using the loaded environment variables

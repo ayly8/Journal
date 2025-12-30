@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import "../css/form.css";
+import { API_BASE_URL } from '../Url';
 
 // this component is for the login/register sliding window form
 function Form({ setIsLoggedIn, setCurrentUser }) {
@@ -35,7 +36,7 @@ function Form({ setIsLoggedIn, setCurrentUser }) {
                ? { username: name, email, password }
                : { username: userName, password: userPass };
 
-         const response = await fetch(`/api/auth/${endpoint}`, {
+         const response = await fetch(`${API_BASE_URL}/api/auth/${endpoint}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
@@ -44,7 +45,7 @@ function Form({ setIsLoggedIn, setCurrentUser }) {
 
          // if login works, take user to dashboard otherwise show user the error msg
          if (response.ok) {
-            const userRes = await fetch("/api/auth/me", {
+            const userRes = await fetch(`${API_BASE_URL}/api/auth/me`, {
                credentials: "include",
             });
 

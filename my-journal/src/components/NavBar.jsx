@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import PropTypes from "prop-types";
+import { API_BASE_URL } from '../Url';
 
 // this component creates the navbar section
 function NavBar({ isLoggedIn, setIsLoggedIn, currentUser, setCurrentUser }) {
@@ -7,7 +8,7 @@ function NavBar({ isLoggedIn, setIsLoggedIn, currentUser, setCurrentUser }) {
 
    const handleLogout = async () => {
       try {
-         const res = await fetch("/api/auth/logout", {
+         const res = await fetch(`${API_BASE_URL}/api/auth/logout`, {
             method: "POST",
             credentials: "include",
          });
